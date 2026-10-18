@@ -2,6 +2,7 @@
 
 ## Screening deck (submitted 2026-10-15)
 - **Final: `Pramaan_BIOS_Screening_v4.pptx`** (+ `.pdf`), built with `scripts/build_deck_v3.py`. The files below (`Pramaan_BIOS_Screening.pptx`, `_v2`, `_v3`) are earlier drafts kept for history.
+- **Revised: `Pramaan_BIOS_Screening_v5.pptx`** (+ `.pdf`), built with `python scripts/build_deck_v5.py <template.pptx> <out.pptx>` (no icon files needed). Fixes from the v4 review: verified stats with sources, no made-up risk scores or latency, consistent worked example (71x usual ₹1,200), slide 2 ends with the template's "The gap we are addressing is:", a plain team diagram on slide 4 (template: simple beats polished), 48-hour plan (the hack runs 30 Oct to 1 Nov), fewer boxes and no icon badges.
 - **`Pramaan_BIOS_Screening.pptx`**: the 5-slide deck in the official BIOS V2 template, with speaker notes (~45–60 s per slide) to read for the video. `.pdf` is a preview render.
 - Rebuild: `python scripts/build_deck.py <BIOS_V2_CORE_FRONTIER_Screening_Template.pptx> docs/05-pitch/Pramaan_BIOS_Screening.pptx` (needs `python-pptx`). The template is kept locally, not in git.
 - **Before submitting:** fill in the **Challenge ID** and **4 roll numbers** in the strip at the top of slide 1.

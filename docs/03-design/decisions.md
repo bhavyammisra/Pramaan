@@ -41,3 +41,9 @@
 ## D-009 · 2026-10-15 · Four response levels made real; ₹0 stack
 **Decision:** Pitch and build 4 levels: allow · fingerprint (WebAuthn passkey) · pause + family approval (n8n self-hosted + Telegram bot: hold → Approve/Cancel → timeout → label) · block. Add a replay simulator (our policy vs RBI's blanket 1-hour delay). Host the API on Render free tier (no card) instead of Cloud Run; in-memory profiles instead of Redis. n8n is only used *after* a decision, never in the scoring path.
 **Why:** Matches the promo video; makes the "typed challenge" idea visible in a demo; keeps running cost at ₹0 with no paid APIs (SMS/WhatsApp avoided). Supersedes the hosting/Redis parts of D-002.
+
+## D-010 · 2026-10-18 · Screening deck v5
+**Decision:** Replace the v4 deck with `Pramaan_BIOS_Screening_v5.pptx` (`scripts/build_deck_v5.py`): text-led layout, no icon badges or pill buttons, no invented risk scores or latency, consistent worked example (71x usual ₹1,200), slide 2 ends with the template's "The gap we are addressing is:", a plain team diagram on slide 4, and a 48-hour plan.
+**Why:** The template says a simple diagram the team understands beats a polished generated one, and Frontier judging includes live technical questions, so every number must be sourced or labelled as a target. The hack runs 48 h (30 Oct to 1 Nov), not 24.
+**Open:** The team decides whether to resubmit v5 before screening closes (19 Oct), if the dashboard allows it.
+**Owner:** Bhavyam (+ Claude)

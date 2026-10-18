@@ -1,6 +1,7 @@
 # Pitch & demo
 
 ## Screening deck (submitted 2026-10-15)
+- **Final: `Pramaan_BIOS_Screening_v4.pptx`** (+ `.pdf`), built with `scripts/build_deck_v3.py`. The files below (`Pramaan_BIOS_Screening.pptx`, `_v2`, `_v3`) are earlier drafts kept for history.
 - **`Pramaan_BIOS_Screening.pptx`**: the 5-slide deck in the official BIOS V2 template, with speaker notes (~45–60 s per slide) to read for the video. `.pdf` is a preview render.
 - Rebuild: `python scripts/build_deck.py <BIOS_V2_CORE_FRONTIER_Screening_Template.pptx> docs/05-pitch/Pramaan_BIOS_Screening.pptx` (needs `python-pptx`). The template is kept locally, not in git.
 - **Before submitting:** fill in the **Challenge ID** and **4 roll numbers** in the strip at the top of slide 1.

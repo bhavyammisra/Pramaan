@@ -64,15 +64,15 @@
 | Headroom / network | remainder |
 
 ## Deployment ("cloud authentication service")
-- API: Docker → **Render free tier** (no card; warm it before demos). Profiles in-memory (D-009).
-- Guardian loop: **n8n (self-hosted) + Telegram bot**. Scam-risk holds trigger an Approve/Cancel message to the user's family member; timeout cancels; the outcome becomes a label.
-- Fingerprint level: **WebAuthn passkeys** in the demo app.
+- API: Docker → **Render free tier** (no card). It sleeps after 15 min idle and wipes memory, so profiles are loaded from Supabase on startup and memory is only a cache; ping `/v1/health` every 10–14 min on demo day (D-009, D-011).
+- Guardian loop: **n8n (self-hosted) + Telegram bot**. Scam-risk holds trigger an Approve/Cancel message to the user's family member; the payment goes only on Approve, and no reply in 30 min cancels it; the outcome becomes a label.
+- Impostor level: **WebAuthn passkey on the owner's registered phone** (device-bound), not a fingerprint on the phone making the payment.
 - Event log: **Supabase Postgres** (the team already knows it). Realtime channel feeds the dashboard.
 - Dashboard + demo app: React (Vite) on **Vercel**.
 - Model artefact (`model.txt` + feature list + version) ships inside the image. `model_version` is in every response.
 
 ## Scaling story (for judges)
-The API is stateless, and the state lives in the profile store, so we scale horizontally behind Cloud Run. UPI averages ~9,300 txns/sec (Sept 2026). A GBDT scores in < 1 ms per core, so the bottleneck is profile I/O, which Redis handles at this scale.
+The API is stateless, and the state lives in the profile store, so it scales horizontally behind any autoscaler (the prototype runs on Render; production would use something like Cloud Run). UPI averages ~9,300 txns/sec (Sept 2026). A GBDT scores in < 1 ms per core, so the bottleneck is profile I/O, which a managed cache such as Redis handles at this scale (the prototype keeps profiles in memory, backed by Supabase).
 
 ## Privacy by design
-We store derived features only (typing *statistics*, not keystrokes), salted-hash device IDs, a profile retention window, and an audit log of every decision and its reasons (DPDP Act 2023; consent obligations from 13 Nov 2026).
+We store derived features only (typing *statistics*, not keystrokes), salted-hash device IDs, a profile retention window, and an audit log of every decision and its reasons (DPDP Act 2023; under the DPDP Rules, notice/consent duties apply from ~14 May 2027 and consent managers from Nov 2026).

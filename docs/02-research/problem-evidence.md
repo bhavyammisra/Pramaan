@@ -21,6 +21,8 @@
 - In 2025, **investment scams = ~76% of money lost** and "digital arrest" scams ~9% [1]. In both, the victim pays themselves.
 - Transactions **> ₹10,000 = ~45% of fraud cases but ~98.5% of fraud value**. ~92% of fraud value is in transactions > ₹50,000 [2].
 - SIM-swap still beats OTP: Karnataka HC case, ₹87.7 lakh drained in 7 transfers using intercepted OTPs; the court suggested delays for large transfers after a SIM swap [9].
+- **Careful with trends:** 2025 losses (₹22,495 cr) are slightly *below* 2024 (₹22,845 cr); only complaints rose (~24%). Don't say "losses are rising". Say losses stay at ~₹22,500 cr a year while complaints keep growing.
+- **Careful with ATO:** RBI's "ATO now negligible" is about bank-reported fraud classification. BioCatch reported ATO as 55% of fraud in its 2024 India session data (`prior-art.md`). Different data sets; we pitch both IMP and SCAM handling, so we don't depend on either.
 - **So the question isn't just "is this the right person?" It's "is this payment normal for this person, right now, and are they being manipulated?"** PIN/OTP answers the first question only.
 
 ## 3. Friction is also a cost (why we can't just challenge everything)

@@ -36,12 +36,12 @@ decision = argmin(cost), then hard-rule overrides
 - For reference, Stripe's defaults are elevated ≥ 65/99 and high ≥ 75/99 [1]. Ours are learned from costs instead of picked by hand.
 
 ## 5. Latency budget
-- Industry authorisation paths expect fraud decisions in **≤ 100 ms** [2][3]. UPI "request pay" now has a 15 s end-to-end timeout across all parties [6], so the risk call must be a tiny slice of that.
+- Industry authorisation paths expect fraud decisions in **≤ 100 ms** [2][3]. NPCI cut the response-time limit for UPI "request pay" and related APIs to 15 s [6]. That's a timeout, not a decision window; the risk call must be a tiny slice of it.
 - Our target: **p95 < 50 ms server-side** (stretch < 20 ms) with in-memory profiles. We measure it in the demo and show it on the dashboard.
 - Throughput reference: UPI averages ~9,300 txns/sec (Sept 2026). The service is stateless apart from the profile store, so it scales horizontally.
 
 ## 6. Privacy (DPDP Act 2023 / Rules 2025)
-- The DPDP Rules were notified **13 Nov 2025**. Notice & consent obligations (Rule 4 etc.) apply from **13 Nov 2026** [7], so this matters right now.
+- The DPDP Rules were published on **14 Nov 2025** (the Data Protection Board provisions started 13 Nov 2025). They phase in: the consent-manager rule (Rule 4) from **Nov 2026**, and the core duties (notice, consent, security, breach reporting, user rights: Rules 3, 5–16) from **about 14 May 2027**, 18 months after publication [7][8]. Check the Gazette for the exact day before quoting it.
 - Our design: **derived features only**. We store typing *statistics*, not keystrokes, and no raw content. Device IDs are salted hashes, the profile store has a retention window, and every decision has a purpose-limited audit log.
 - Section 17 exempts processing for *prevention/detection of offences* [7], but we design for consent + minimisation anyway.
 
@@ -59,3 +59,4 @@ decision = argmin(cost), then hard-rule overrides
 5. Höppner et al., Instance-dependent cost-sensitive learning for transfer fraud: https://arxiv.org/pdf/2005.02488
 6. MediaNama, NPCI response-time circular: https://www.medianama.com/2025/06/223-npci-upi-changes-transaction-speed-fraud-prevention/
 7. Hogan Lovells on DPDP Rules: https://ca.hoganlovells.com/en/publications/indias-digital-personal-data-protection-act-2023-brought-into-force-
+8. JSA Prism, DPDP Rules phase-in (Nov 2025): https://www.jsalaw.com/?p=55573 · Lawrbit summary: https://www.lawrbit.com/article/digital-personal-data-protection-rules-2025

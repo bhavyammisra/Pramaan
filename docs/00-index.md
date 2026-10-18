@@ -29,4 +29,5 @@
 ## 05 · Pitch
 - `05-pitch/README.md`: screening deck guide (slide-by-slide), video plan, demo script, judge Q&A with answers.
 - `05-pitch/Pramaan_BIOS_Screening_v4.pptx`: **final submitted** 5-slide screening deck (BIOS template) + `.pdf`. Built by `scripts/build_deck_v3.py`. `Pramaan_BIOS_Screening.pptx`, `_v2`, `_v3` are older drafts.
-- `05-pitch/Pramaan_BIOS_Screening_v5.pptx`: revised deck (+ `.pdf`) after the v4 review: verified numbers, no invented scores, simpler diagram, 48-hour plan. Built by `scripts/build_deck_v5.py`. Resubmit if the dashboard allows before 19 Oct.
+- `05-pitch/Pramaan_BIOS_Screening_v5.pptx`: revised deck (+ `.pdf`) after the v4 review: verified numbers, no invented scores, simpler diagram, 48-hour plan. Built by `scripts/build_deck_v5.py`. Superseded by v6.
+- `05-pitch/Pramaan_BIOS_Screening_v6.pptx`: **latest** deck (+ `.pdf`) = v5 + review fixes (D-011): registered-phone passkey, family-approval wording, bot row, consistent dates. Built by `scripts/build_deck_v6.py`. Resubmit if the dashboard allows before 19 Oct.

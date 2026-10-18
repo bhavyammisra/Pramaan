@@ -47,3 +47,9 @@
 **Why:** The template says a simple diagram the team understands beats a polished generated one, and Frontier judging includes live technical questions, so every number must be sourced or labelled as a target. The hack runs 48 h (30 Oct to 1 Nov), not 24.
 **Open:** The team decides whether to resubmit v5 before screening closes (19 Oct), if the dashboard allows it.
 **Owner:** Bhavyam (+ Claude)
+
+## D-011 · 2026-10-18 · Deck v6 + review fixes
+**Decision:** `Pramaan_BIOS_Screening_v6.pptx` (`scripts/build_deck_v6.py`) replaces v5. (1) Impostor challenge = approve with a **device-bound passkey on the registered phone**, not "fingerprint" (a fingerprint on the new phone only proves the thief's own finger). (2) Family hold: the payment goes **only if the trusted contact approves**; no reply in 30 min cancels it (slide 3 said both "family can cancel" and "no reply cancels"). (3) Bot row = "15 PIN retries in 10 min" (card testing doesn't fit an ₹85k story). (4) "SIM changed yesterday" everywhere; "UPI's 15-second response limit", not "decision window". (5) Slide 5 targets labelled as tuned together. Fail-safe wording: "never weaker than today's check", not "never fails open".
+**Docs:** DPDP dates corrected (core duties ~14 May 2027, consent managers Nov 2026); Render free-tier sleep + memory wipe added as risk 7 (profiles backed by Supabase, keep-alive ping); threshold-vs-target risk 8; stale Cloud Run/Redis, 24 h plan and TBD dates removed; ATO and loss-trend caveats added.
+**Why:** Frontier judging includes live technical questions; each of these is an easy catch.
+**Owner:** Shefali (+ Claude)

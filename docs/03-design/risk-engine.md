@@ -64,15 +64,15 @@ challenge if p ≥ τ_challenge(A), else allow
 
 | Challenge c | friction[c] (₹-equiv.) | eff vs IMP | eff vs SCAM | eff vs BOT | eff vs MULE |
 |---|---|---|---|---|---|
-| `biometric_step_up` (device biometric / passkey) | 3 | 0.90 | 0.10 | 0.95 | 0.10 |
+| `biometric_step_up` (passkey bound to the user's **registered** phone, not the phone making the payment) | 3 | 0.90 | 0.10 | 0.95 | 0.10 |
 | `otp` (fallback) | 5 | 0.60 | 0.05 | 0.90 | 0.05 |
 | `cooling_off` (hold 30–60 min + scam-specific warning, cancel anytime) | 25 | 0.30 | 0.70 | 0.50 | 0.60 |
-| `trusted_contact` (nominated person approves; payment held meanwhile) | 40 | 0.60 | 0.85 | 0.50 | 0.70 |
+| `trusted_contact` (payment held; it goes only if the nominated person approves; no reply in 30 min = cancelled) | 40 | 0.60 | 0.85 | 0.50 | 0.70 |
 
 What this gives us:
-- A **coached victim (SCAM)** gets cooling-off / trusted contact, never an OTP they'd just type in. A likely **impostor (IMP)** gets a biometric step-up that a remote attacker can't pass. A **bot** gets a cheap step-up it can't do.
+- A **coached victim (SCAM)** gets cooling-off / trusted contact, never an OTP they'd just type in. A likely **impostor (IMP)** must approve with a passkey on the owner's **registered** phone. A fingerprint on the new phone would prove nothing, since the attacker unlocks that phone with their own finger. Use device-bound passkeys (not cloud-synced) for this; if the owner really has a new phone, fall back to the bank's re-registration flow. A **bot** gets a cheap step-up it can't do.
 - Most traffic (known device, known payee, normal amount) is allowed, often by the fast-path rule, so it never sees friction.
-- **Guardrail:** we tune `k` so the challenge rate on legit synthetic traffic stays ≤ 5%. Dashboard sliders for `k` and `τ_block` show the fraud-caught vs friction trade-off live.
+- **Guardrail:** we tune `k` (and `τ_min`) so the challenge rate on legit synthetic traffic stays ≤ 5% **and** ≥ 90% of honest ≥ ₹10k transfers pass without delay (`../04-plan/risks-and-metrics.md`). With τ_min = 0.05 at ≥ ₹10k, honest first-time big payments may cross it, so check this first once the model runs. Dashboard sliders for `k` and `τ_block` show the fraud-caught vs friction trade-off live.
 - Compare RBI's proposed blanket rule (delay *every* APP transfer ≥ ₹10k): we only delay the ones whose context is risky.
 
 ## 4. Explanations

@@ -2,6 +2,7 @@
 
 ## Screening deck (submitted 2026-10-15)
 - **Final: `Pramaan_BIOS_Screening_v4.pptx`** (+ `.pdf`), built with `scripts/build_deck_v3.py`. The files below (`Pramaan_BIOS_Screening.pptx`, `_v2`, `_v3`) are earlier drafts kept for history.
+- **Latest: `Pramaan_BIOS_Screening_v6.pptx`** (+ `.pdf`): v5 + review fixes (D-011). Impostor challenge = passkey on the **registered** phone (not a fingerprint on the new phone); family hold = goes only if the son approves, no reply in 30 min cancels; bot row = 15 PIN retries; "SIM changed yesterday" everywhere; "UPI's 15-second response limit"; targets labelled as tuned together. Built with `scripts/build_deck_v6.py <template.pptx> <out.pptx>`. **Resubmit this one by 19 Oct if the dashboard allows.**
 - **Revised: `Pramaan_BIOS_Screening_v5.pptx`** (+ `.pdf`), built with `python scripts/build_deck_v5.py <template.pptx> <out.pptx>` (no icon files needed). Fixes from the v4 review: verified stats with sources, no made-up risk scores or latency, consistent worked example (71x usual ₹1,200), slide 2 ends with the template's "The gap we are addressing is:", a plain team diagram on slide 4 (template: simple beats polished), 48-hour plan (the hack runs 30 Oct to 1 Nov), fewer boxes and no icon badges.
 - **`Pramaan_BIOS_Screening.pptx`**: the 5-slide deck in the official BIOS V2 template, with speaker notes (~45–60 s per slide) to read for the video. `.pdf` is a preview render.
 - Rebuild: `python scripts/build_deck.py <BIOS_V2_CORE_FRONTIER_Screening_Template.pptx> docs/05-pitch/Pramaan_BIOS_Screening.pptx` (needs `python-pptx`). The template is kept locally, not in git.
@@ -25,9 +26,9 @@
 
 ## Demo script (for the hack round)
 1. Legit purchase from a known device → **allow**, instant
-2. Same user, new phone + SIM changed yesterday + new city, ₹85k → **challenge: biometric** (impostor)
-3. Own phone at home, **on a call**, new UPI ID **pasted**, ₹85k → **challenge: 30-min hold + trusted contact** (scam), with reasons
-4. Emulator + VPN, 15 attempts in 10 min → **block** (bot)
+2. Same user, new phone + SIM changed yesterday + new city, ₹85k → **challenge: approve with the passkey on the registered phone** (impostor)
+3. Own phone at home, **on a call**, new UPI ID **pasted**, ₹85k → **challenge: 30-min hold, goes only if the trusted contact approves** (scam), with reasons
+4. Emulator + VPN, 15 PIN retries in 10 min → **block** (bot)
 5. Dashboard: live feed, "why" panel, latency chart; drag the `k` slider to show the fraud-caught vs friction trade-off
 
 ## Likely judge questions (with answers)
@@ -36,6 +37,9 @@
 - **How do you know the user is on a call?** On Android, a mobile SDK can read call/screen-share state (Google already pilots screen-share alerts in GPay/Paytm/Navi). In the web prototype it's a toggle, and missing signals count as "unknown", never "safe".
 - **Why not just use OTP / RBI's 1-hour delay?** OTP doesn't stop a coached victim. A blanket delay hits every honest ₹10k+ transfer. We delay only the risky ones.
 - **Why these thresholds?** Amount-aware (t* = c / amount) from cost-sensitive fraud research (Höppner et al. 2020); block fixed high; tuned on data to a ≤ 5% challenge budget.
-- **How does it scale?** Stateless API on Cloud Run; GBDT < 1 ms/core; Redis profiles; UPI average ~9,300 txns/s.
-- **Privacy?** Derived features only, hashed device IDs, retention window, audit log; designed for DPDP Act consent rules (from 13 Nov 2026).
+- **How does it scale?** The API is stateless apart from the profile store, so it scales horizontally; GBDT < 1 ms/core. The prototype runs on Render's free tier with profiles in memory, backed by Supabase; production would use a managed cache (e.g. Redis) and autoscaling. UPI averages ~9,300 txns/s.
+- **Why a passkey and not a fingerprint for the impostor?** The fingerprint check runs on whatever phone it's on, so a thief unlocks their own phone with their own finger. A device-bound passkey lives on the owner's registered phone, which the SIM-swapper doesn't have.
+- **RBI says account takeover is negligible, but BioCatch says 55%?** Different data: RBI counts bank-reported fraud, BioCatch measures sessions at its partner banks. We handle both impostors and scams, so the pitch doesn't depend on either number.
+- **What happens if your service is down?** The bank's normal PIN/OTP runs, so it's never weaker than today, but there's no scam protection until we're back.
+- **Privacy?** Derived features only, hashed device IDs, retention window, audit log; designed for the DPDP Rules, whose notice/consent duties apply from ~14 May 2027 (consent managers from Nov 2026).
 - **Why not an LLM?** ~1 s and non-deterministic. GBDT + TreeSHAP is ms-fast and reproducible. LLMs could later draft analyst case notes off the hot path.

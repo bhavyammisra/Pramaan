@@ -1,6 +1,6 @@
 # API contract (v1, 2026-10-15)
 
-Base URL: `https://<cloud-run-url>/v1` · JSON · every response carries `request_id` and `latency_ms`.
+Base URL: `https://<render-service>.onrender.com/v1` (Render free tier, D-009) · JSON · every response carries `request_id` and `latency_ms`.
 
 ## `POST /v1/authenticate`
 Called by the bank/PSP **before** the normal PIN/OTP step.
@@ -55,4 +55,4 @@ Only `transaction` is required. Missing device/session fields are treated as "un
 ## Errors & fail-safe (D-006)
 `400` invalid payload · `500` internal error. If the engine errors or misses its 150 ms internal deadline, it returns
 `{ "decision": "challenge", "challenge": {"type": "standard_2fa"}, "reasons": [{"code": "ENGINE_UNAVAILABLE"}] }`.
-The payment then falls back to the bank's normal mandated PIN/OTP flow. It never fails open, and it never blocks a user because of our own outage.
+The payment then falls back to the bank's normal mandated PIN/OTP flow: never weaker than today's check (but no scam protection during the outage), and it never blocks a user because of our own outage.

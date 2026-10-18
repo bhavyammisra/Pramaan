@@ -19,7 +19,7 @@
 ## Scam-in-progress context (mobile SDK signals; simulated in the web prototype)
 | Signal | Feature | Why it matters | Type | Priority |
 |---|---|---|---|---|
-| **Active phone call during payment** | `on_call` | On a call in **≤ 70% of remote-access-scam sessions vs < 1% of genuine sessions** (BioCatch) | SCAM | **P0** |
+| **Active phone call during payment** | `on_call` | On a call in **up to 70% of remote-access-scam sessions vs < 1% of genuine sessions** (BioCatch's own claim) | SCAM | **P0** |
 | Screen-sharing / remote-access app active | `screen_share` / `remote_access_app` | How OTPs and PINs get stolen; Google is piloting alerts for this in GPay/Paytm | SCAM/IMP | P0 |
 | Session opened from an SMS/WhatsApp link | `entry_source` | Phishing / "pay to unblock" flows | SCAM | P2 |
 

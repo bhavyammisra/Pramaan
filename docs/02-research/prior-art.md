@@ -14,7 +14,7 @@
 - **Stripe Radar:** an ML model over "hundreds of risk factors" plus network data. It outputs a 0–99 score (elevated ≥ 65, high ≥ 75 by default). Highest risk is blocked, elevated goes to manual review, and a rule can request 3DS. "Risk insights" explanations exist only on the paid Fraud Teams tier [5].
 - **Sift:** a 0–100 score, with customer-set thresholds for accept/review/step-up/block [6].
 - **EMV 3DS 2.x:** issuers' ACS risk engines get 41 required + 150 optional data elements (10x 3DS 1.0) to run a "frictionless" vs "challenge" flow [7]. In Japan after its 2025 mandate, ~60% of 3DS transactions went frictionless [8].
-- **BioCatch:** behavioural biometrics. In remote-access scams, the victim is **on an active phone call in up to 70% of sessions, vs < 1% of genuine sessions** [9]. In India, ATO was 55% of fraud in its 2024 data, and 9/10 mule accounts went undetected at one partner bank [10].
+- **BioCatch:** behavioural biometrics. In remote-access scams, the victim is **on an active phone call in up to 70% of sessions, vs < 1% of genuine sessions** [9] (BioCatch's own wording and data: a vendor claim, and "up to" is a ceiling, not an average). In India, ATO was 55% of fraud in its 2024 data, and 9/10 mule accounts went undetected at one partner bank [10]. ⚠ This clashes with RBI calling ATO "now negligible" [2]; see the judge Q&A in `../05-pitch/README.md`.
 - **Razorpay ACS:** risk-based authentication for Indian cards, using customer, merchant and device parameters [11].
 
 **Gap:**

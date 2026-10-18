@@ -208,7 +208,7 @@ def slide4(s):
     b, tf = box(s, 7.45, 4.6, 5.4, 0.8, "After decision", fill=WHITE, line=MUTED, radius=0.02, pad=0.11)
     b.line.dash_style = MSO_LINE_DASH_STYLE.DASH
     add_par(tf, [("After the decision, off the scoring path", 10.5, True, MUTED)], first=True, align=L, space_after=2)
-    add_par(tf, [("fingerprint: ", 10.5, True, TEXT), ("WebAuthn passkey on the registered phone", 10.5, False, TEXT)], align=L)
+    add_par(tf, [("passkey: ", 10.5, True, TEXT), ("WebAuthn passkey on the registered phone", 10.5, False, TEXT)], align=L)
     add_par(tf, [("family: ", 10.5, True, TEXT), ("n8n → Telegram Approve / Cancel → no reply in 30 min = cancel → label", 10.5, False, TEXT)], align=L)
     arrow(s, 11.82, top + H, 11.82, 4.6, "A after", width=1.25)
     text(s, 0.5, 4.6, 4.35, 0.85, "Built vs mocked", [

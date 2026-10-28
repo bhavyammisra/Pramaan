@@ -18,6 +18,7 @@ New teammate or no git identity → follow [`SETUP.md`](SETUP.md).
 ## Where to look
 - Always read `STATUS.md` first, then `docs/00-index.md` to pick which docs to open.
 - Problem/scope → `docs/01-problem/` · research → `docs/02-research/` · design, API, risk engine, decisions → `docs/03-design/` · plan, tasks → `docs/04-plan/` · pitch → `docs/05-pitch/` · code → `src/README.md`.
+- Skills: `.claude/skills/llm-council/` (Karpathy's LLM Council on Claude subagents, free). Say "council this: <question>".
 
 ## Rules
 - Keep docs short and concise; no filler.

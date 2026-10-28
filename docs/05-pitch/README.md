@@ -31,7 +31,7 @@ Full plan and reliability rules: `../04-plan/finals-playbook.md`. 3 minutes, one
 1. **Story first, 20 s, no badges yet:** "Asha, 72, gets a video call from a fake CBI officer. She types her own UPI PIN. Every check passes."
 2. **Split screen (10 s):** the same ₹85k. OTP-only: "OTP verified ✔, ₹85,000 gone". Pramaan: "Held, here's why".
 3. **Allow:** Asha's usual ₹1,200 → allowed instantly (fast path, server facts only).
-4. **Challenge (hero):** Asha is on a call (SIMULATED toggle with badge; a live WhatsApp call only if the 29 Oct `adb shell dumpsys audio` test passed and the micro-app was built), pastes a new UPI ID, sends ₹85,000 → **held**. The hold screen plays our **recorded Hindi/English warning** ("CBI/Police/ED/Judges DO NOT arrest you on video call", I4C) and shows 3 spell-breaker questions + the top-3 reasons.
+4. **Challenge (hero):** first with the call signal **off** (paste + hesitation + new payee + 71× amount already hold it), then on, to show the reasons get stronger. Asha is on a call (SIMULATED toggle with badge; a live WhatsApp call only if the 29 Oct `adb shell dumpsys audio` test passed and the micro-app was built), pastes a new UPI ID, sends ₹85,000 → **held**. The hold screen plays our **recorded Hindi/English warning** ("CBI/Police/ED/Judges DO NOT arrest you on video call", I4C) and shows 3 spell-breaker questions + the top-3 reasons.
 5. **The judge is Rohan:** a QR on the stand opens a **no-install web page** ("You are Rohan, Asha's son"; one-time token per hold in the URL) that shows Approve / Cancel / Call Asha (we don't promise a buzz: iOS Safari can't vibrate) → Cancel → Asha's screen shows "₹85,000 saved". The real product channel (Telegram) runs on a teammate's phone held up beside it. Badge: "DEMO MODE: 72 h contact enrolment waived". Fallback: the demo-only in-app "Rohan" panel.
 6. **Device (15 s, SIMULATED badge):** the same ₹85k from a new phone with the SIM changed yesterday → "Approve on your registered phone" → the owner taps **Not me** → blocked. (This is the "device information" leg of the problem statement.)
 7. **Block (10 s):** Asha tries to pay a UPI ID that's on the (mock) DoT FRI Very-High list → **Blocked**, with the reason. (Card testing stays in the replay and Q&A.)
@@ -73,3 +73,14 @@ Full plan and reliability rules: `../04-plan/finals-playbook.md`. 3 minutes, one
 | Your promo video says "fingerprint". | Made before our review: a fingerprint on the thief's phone only proves the thief's finger, so we moved to a passkey on the registered phone and approve-only release. | Bhavyam |
 
 *Owner load: Bhavyam 3 · Abhijay 3 · Gunagye 3 · Shefali 3 (plus the older rows above, split the same way).*
+
+## Stage rules + extra answers (28 Oct, from the score review)
+- **On stage, only three things:** Asha's story → "the challenge fits the risk" → the judge cancels on their own phone. Everything else goes on the **one-page depth card** (threat model, probation, cross-victim flags, integration points, cost of call-backs) handed to judges who dig in.
+- Frame every safety feature as one principle: **"money is untrusted until it's proven safe."**
+
+| Question | Answer | Owner |
+|---|---|---|
+| What if she has no trusted contact? | Contact → second contact → bank call-back desk. Only scam-type holds above ₹10k reach a human; from our replay that's about N per 1 lakh payments vs the loss avoided per call. Optional safe word agreed with her bank. | Shefali |
+| Isn't this what RBI's DPIP does? | DPIP shares fraud intelligence between banks; Pramaan is the decision at the moment of payment. DPIP's flags would be one more input to us. | Bhavyam |
+| Does the warning actually stop people? | Our hall test: X of Y coached volunteers cancelled. Outside evidence: Revolut's intervention flow cut investment-scam losses ~30%. | Abhijay |
+| Does it work on real data? | The transaction + device part scores AUC X on IEEE-CIS (real card fraud); the scam part is tested blind on variants it never saw. | Bhavyam |

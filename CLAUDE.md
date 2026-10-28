@@ -16,7 +16,7 @@ New teammate or no git identity → follow [`SETUP.md`](SETUP.md).
 - Never force-push. Report failures immediately; after pushing, say what went up in one line.
 
 ## Where to look
-- Always read `STATUS.md` first, then `docs/00-index.md` to pick which docs to open.
+- **Always read `PLAN.md` first** (the whole idea in one page; it wins over any older doc), then `STATUS.md`, then `docs/04-plan/roadmap.md` for what to do next, then `docs/00-index.md` to pick detail docs.
 - Problem/scope → `docs/01-problem/` · research → `docs/02-research/` · design, API, risk engine, decisions → `docs/03-design/` · plan, tasks → `docs/04-plan/` · pitch → `docs/05-pitch/` · code → `src/README.md`.
 - Skills: `.claude/skills/llm-council/` (Karpathy's LLM Council on Claude subagents, free). Say "council this: <question>".
 

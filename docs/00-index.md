@@ -2,6 +2,10 @@
 
 > One line per doc. Agents: pick from here and open only what you need. Keep this updated whenever docs change.
 
+## Start here
+- `../PLAN.md`: **the whole plan in one page** (problem, insight, solution, demo, evidence, scope). Wins over any older doc.
+- `04-plan/roadmap.md`: execution order from 29 Oct to judging, with owners and checkpoints.
+
 ## 01 · Problem
 - `01-problem/problem-statement.md`: the official statement (verbatim) and our reading of what judges will look for.
 - `01-problem/scope.md`: hackathon logistics (dates, submission, judging) and our in/out-of-scope list.

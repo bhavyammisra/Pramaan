@@ -4,7 +4,7 @@
 
 **Last updated:** 2026-10-28 · by Bhavyam (+ Claude)
 
-**Selected for the BIOS finals.** Hack runs 30 Oct to 1 Nov (48 h); new problem statements are picked on-site. **Plan for the finals: `docs/04-plan/finals-playbook.md`.**
+**Selected for the BIOS finals.** Hack runs 30 Oct to 1 Nov (48 h); new problem statements are picked on-site. **The plan: `PLAN.md`. What to do next, in order: `docs/04-plan/roadmap.md`.**
 
 ## Phase
 setup → research → design → plan → pitch (screening, done) → review (council, done) → **`PREP (29 Oct)`** → build (hack) → polish

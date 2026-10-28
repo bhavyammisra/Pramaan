@@ -1,6 +1,6 @@
 # Finals playbook (30 Oct → 1 Nov, 48 h)
 
-> From council review 1 (28 Oct; full review in `../06-review/council-review-1.md`). Principle: **one hero flow built perfectly; every claim is measured, labelled SIMULATED, or labelled a policy choice.** Read with `STATUS.md`.
+> **Big picture: `../../PLAN.md`. Order of work: `roadmap.md`.** This file holds the detail (organiser questions, H0 gate table, tiers, milestones, reliability). From council review 1 (28 Oct; full review in `../06-review/council-review-1.md`). Principle: **one hero flow built perfectly; every claim is measured, labelled SIMULATED, or labelled a policy choice.** Read with `STATUS.md`.
 
 ## 0. Before the hack (29 Oct): rules first
 **Ask the organisers today** (Discord / email / coordinator):
@@ -48,7 +48,7 @@ Kernel: **events → features vs the user's own baseline → risk rank + type �
 | | **Device scene (15 s, SIMULATED):** new phone + SIM changed yesterday → "Approve on your registered phone" page (same component as Rohan's) with Approve / **Not me** → Not me blocks. Real WebAuthn stays SHOULD (4) | Gunagye |
 | | Demo script + presenting (the presenter is not the integrator and doesn't deploy in the last hour) | Abhijay (suggested presenter) |
 | **SHOULD (H20–H36), in this order** | (1) recall-vs-budget curve + `on_call` ablation on held-out variants → (2) multiclass LightGBM + server-only model (risk = max) → (3) probation features + a 20-s investment-scam scene (a "profit" credit from a stranger, then a bigger payment → held) → (4) impostor path: transaction-bound passkey on the registered phone + "Not me" | (1) Abhijay · (2) Bhavyam · (3) Abhijay · (4) Gunagye |
-| **COULD (only when MUST + SHOULD are green)** | One non-synthetic check: transaction + device sub-model AUC on IEEE-CIS (real data; download it on 29 Oct; 1-hour box) · live spoken warning via Chrome speech · bait-profit · collective-immunity counter · Android micro-app (native, no WebView) posting only the call audio mode — **only if the 29 Oct `adb shell dumpsys audio` test showed the mode change** | whoever is free |
+| **COULD (only when MUST + SHOULD are green)** | Hall user test: 10–15 people play "Asha" while a teammate coaches them on a call; count cancels at the warning screen · One non-synthetic check: transaction + device sub-model AUC on IEEE-CIS (real data; download it on 29 Oct; 1-hour box) · live spoken warning via Chrome speech · bait-profit · collective-immunity counter · Android micro-app (native, no WebView) posting only the call audio mode — **only if the 29 Oct `adb shell dumpsys audio` test showed the mode change** | whoever is free |
 | **TALK-ONLY** | SDK signing + Play Integrity · bank call-back desk · second independent generator · DPIP/FRI feeds · appeals workflow | — |
 
 **Rules:** never start a COULD while a MUST/SHOULD is red. The Android micro-app starts only if the hero flow is green by H24, with a 4-hour box.

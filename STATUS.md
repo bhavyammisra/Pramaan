@@ -2,7 +2,9 @@
 
 > Read this every session. Update it after meaningful work (keep it short and overwrite stale lines).
 
-**Last updated:** 2026-10-18 · by Shefali (+ Claude)
+**Last updated:** 2026-10-28 · by Bhavyam (+ Claude)
+
+**Selected for the BIOS finals.** Hack runs 30 Oct to 1 Nov (48 h); new problem statements are picked on-site.
 
 ## Phase
 setup → research → design → plan → pitch (screening, done) → **`BUILD (hack)`** → polish
@@ -20,8 +22,7 @@ setup → research → design → plan → pitch (screening, done) → **`BUILD 
 ## In progress
 | Who | What |
 |-----|------|
-| Bhavyam | Resubmit **v6** before screening closes (19 Oct) if the dashboard allows |
-| – | Waiting for screening results (22 Oct) |
+| All | Prep for finals (30 Oct): pre-build the parts that survive a new statement |
 
 ## Next up
 1. Start the hack build: `docs/04-plan/timeline.md` (H0–H22 plan) and `docs/04-plan/tasks.md`.

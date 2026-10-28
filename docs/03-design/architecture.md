@@ -1,4 +1,4 @@
-# Architecture (v1, 2026-10-15; decisions logged in `decisions.md` D-002…D-008)
+# Architecture (v2, 2026-10-28; v1 15 Oct. Decisions D-002…D-019; v2 changes from council review 1 are proposals D-012…D-019)
 
 > Working name: **Pramaan** (प्रमाण, "proof"). It's a risk-based authentication layer that sits **on top of** mandated 2FA. It never replaces it.
 
@@ -6,73 +6,77 @@
 ```
  ┌──────────────────────────────┐
  │ Client: demo UPI-style app    │  txn + device + session behaviour
- │ + Pramaan SDK (JS / mobile)   │  (typing cadence, dwell, paste, on-call*, screen-share*, SIM-change*)
+ │ + Pramaan SDK (JS / mobile)   │  (paste, dwell, app switches, on-call*, screen-share*, SIM-change*)
  └──────────────┬───────────────┘   *mobile-only signals: simulated by toggles in the web prototype
-                │ POST /v1/authenticate   (HTTPS, JSON)
+                │ via bank backend (API key) → POST /v1/authenticate, before the PIN step
                 ▼
  ┌──────────────────────────────┐      ┌──────────────────────────────────┐
- │ 1. API layer (FastAPI)        │      │ Profile store (in-memory → Redis) │
- │    validate · request id ·    │◀────▶│  user baseline: median amt, known │
- │    timing                     │      │  devices/payees, home geo, hours, │
- └──────────────┬───────────────┘      │  typing stats · payee reputation   │
+ │ 1. API layer (FastAPI)        │      │ Profile store (cache + Supabase)  │
+ │    key · rate limit · validate│◀────▶│  baseline from TRUSTED payees,    │
+ │    · request id · timing      │      │  probation payees, devices, hours,│
+ └──────────────┬───────────────┘      │  payee fan-in · payee reputation   │
                 ▼                       │  (mock FRI / mule list)            │
  ┌──────────────────────────────┐      └──────────────────────────────────┘
  │ 2. Feature builder            │  ~25 features: ratios & z-scores vs the user's OWN baseline
  └──────────────┬───────────────┘
                 ▼
  ┌──────────────────────────────────────────────────────────────┐
- │ 3. Risk engine                                                │
- │   a. Hard rules ── policy overrides (very-high-risk payee, bot │
- │      combo) and a fast-path allow for clearly normal payments  │
- │   b. LightGBM model ── p(fraud) in [0,1]                      │
- │   c. TreeSHAP ── per-signal contributions → reason codes      │
- │   d. Risk type ── IMPOSTOR / SCAM / BOT / MULE (strongest      │
- │      signal family)                                           │
- │   e. Decision policy ── expected-cost, amount-aware:          │
- │      allow | challenge(type) | block                          │
+ │ 3. Risk engine (v2, risk-engine.md)                           │
+ │   a. Hard rules ── the ONLY blocks (flagged payee, card-testing│
+ │      velocity, owner taps "Not me") + fast-path allow on       │
+ │      server facts only                                         │
+ │   b. Rules scorecard (H8) → multiclass LightGBM (H30):         │
+ │      legit / IMP / SCAM / BOT / MULE; risk rank =              │
+ │      max(server-only model, full model)                        │
+ │   c. Reasons ── pred_contrib: φ_type − φ_legit (non-allow only)│
+ │   d. Friction budget per amount band (bank-set) → challenge?  │
+ │   e. Policy table by risk type → which challenge (stacked if  │
+ │      two types are close)                                     │
  └──────────────┬───────────────────────────────────────────────┘
                 ▼
-   Response: decision · risk_score · risk_type · challenge · reasons[] · latency_ms
+   Response: decision · risk_rank · risk_type · challenge · reasons[] (top 3, REAL/SIMULATED tag) · latency_ms
                 │
      ┌──────────┴────────────┐
      ▼                       ▼
- Event log (Postgres/       Feedback API  POST /v1/feedback
- Supabase, realtime)        (analyst or challenge outcome → profile update,
-     │                       labels for retraining)
+ Event log + holds +        Holds & approvals: Telegram bot (in FastAPI,
+ contacts (Supabase)        long polling) → contact Approve/Cancel; registered
+     │                      phone polls pending passkey approvals; analyst
+     │                      release ("bank call-back"); feedback = labels only
      ▼
- Dashboard (React): live decision feed · "why" panel · latency chart · threshold sliders
+ Dashboard (React): live decision feed · "why" panel (analyst key) · budget sliders · rules-vs-model
 ```
 
 ## Request flow
-1. The SDK collects context and the client calls `/v1/authenticate` **before** the normal PIN/OTP step.
+1. The user taps Pay. The app's SDK collects context and the bank backend calls `/v1/authenticate` (with the bank's API key) **before** the UPI PIN screen. The SDK owns the timeout (150 ms in production, 3 s in the demo).
 2. The API validates the payload (`api-contract.md`) and starts a timer.
-3. The feature builder loads the user/device/payee profile and computes features against the user's **own** history.
-4. Hard rules run first. A hit can force block/challenge or fast-path allow.
-5. LightGBM → p(fraud). TreeSHAP gives each feature's contribution. Contributions are grouped by signal family to get the **risk type**.
-6. The decision policy minimises expected cost for this amount, which picks allow / challenge / block. The challenge **type** is chosen by risk type (see `risk-engine.md`).
-7. The response returns in milliseconds. The event is logged asynchronously and the dashboard updates live. After an allowed payment completes, the profile updates (new payee, rolling median).
-8. **Fail-safe:** if the engine errors or misses its 150 ms internal deadline, the response is `challenge` with `type: standard_2fa`. The payment then goes through the normal mandated PIN/OTP flow, so we never fail *open* and never block a user because of our own outage (D-006).
+3. The feature builder loads the user/device/payee profile and computes features against the user's **own** history (trusted payees only; probation payees don't count).
+4. Hard rules run first: a hit blocks (flagged payee, card testing, "Not me"), or the fast path allows on server facts only.
+5. The scorecard (later LightGBM) gives a risk rank and a risk type; reasons come from `pred_contrib` only when the decision isn't allow.
+6. The amount band's friction budget decides challenge vs allow; the policy table decides which challenge (passkey on the registered phone / hold + trusted contact / bank call-back).
+7. On a hold, the app doesn't open the PIN step. Release (contact Approve or bank analyst for scam holds) unlocks the PIN step and the owner completes the payment herself. Holds, approvals and contacts are stored in Supabase.
+8. **Fail-safe:** if the API is unreachable or slow, the SDK falls back to the bank's standard 2FA; for first-time ₹10k+ transfers the bank applies its RBI-style hold meanwhile (degrade to the regulator's rule, not to nothing). If the engine itself errors or misses its 150 ms deadline it returns `standard_2fa` (D-006, D-017).
 
 ## Latency budget (target p95 < 50 ms server-side; hard deadline 150 ms)
 | Step | Budget |
 |---|---|
 | Validation + parsing | 2 ms |
-| Profile lookups (in-memory / Redis) | 5 ms |
+| Profile lookups (in-memory cache backed by Supabase) | 5 ms |
 | Feature building | 3 ms |
-| LightGBM + TreeSHAP | 10 ms |
+| LightGBM predict (+ `pred_contrib` only for non-allow) | timed on Render at H8 (0.1 CPU); throwaway 1-thread benchmark: ~2 ms p50 for 100 rounds × 5 classes, depth 5 |
 | Policy + response | 1 ms |
 | Headroom / network | remainder |
 
 ## Deployment ("cloud authentication service")
 - API: Docker → **Render free tier** (no card). It sleeps after 15 min idle and wipes memory, so profiles are loaded from Supabase on startup and memory is only a cache; ping `/v1/health` every 10–14 min on demo day (D-009, D-011).
-- Guardian loop: **n8n (self-hosted) + Telegram bot**. Scam-risk holds trigger an Approve/Cancel message to the user's family member; the payment goes only on Approve, and no reply in 30 min cancels it; the outcome becomes a label.
-- Impostor level: **WebAuthn passkey on the owner's registered phone** (device-bound), not a fingerprint on the phone making the payment.
-- Event log: **Supabase Postgres** (the team already knows it). Realtime channel feeds the dashboard.
+- Guardian loop: **Telegram bot inside FastAPI** (long polling, one poller per token; D-016, replaces n8n). Scam holds send Approve / Cancel to the verified trusted contact; only the contact or a bank analyst releases a scam hold; silence keeps it held (reminder at 10 min, call-back queue at 30 min). In the demo a judge can be "Rohan" through a no-install web page.
+- Impostor level: **WebAuthn passkey on the owner's registered phone**, challenge = hash(nonce, txn_id, amount, payee); RP ID = the frontend's full production hostname; within 72 h of a SIM change a passkey alone isn't enough (threat model).
+- Event log, holds, approvals, contacts: **Supabase Postgres** (the team already knows it; touch it daily so the free project doesn't pause).
 - Dashboard + demo app: React (Vite) on **Vercel**.
-- Model artefact (`model.txt` + feature list + version) ships inside the image. `model_version` is in every response.
+- Model artefact (`model.txt` + feature list + version) trained offline and shipped inside the image; the Render runtime is FastAPI + LightGBM Booster + numpy only (512 MB). `engine` / `model_version` are in every response.
+- Deploys come from a `demo` branch (Vercel production branch), so `main` can move freely.
 
 ## Scaling story (for judges)
-The API is stateless, and the state lives in the profile store, so it scales horizontally behind any autoscaler (the prototype runs on Render; production would use something like Cloud Run). UPI averages ~9,300 txns/sec (Sept 2026). A GBDT scores in < 1 ms per core, so the bottleneck is profile I/O, which a managed cache such as Redis handles at this scale (the prototype keeps profiles in memory, backed by Supabase).
+The API is stateless, and the state lives in the profile store, so it scales horizontally behind any autoscaler (the prototype runs on Render; production would use something like Cloud Run). UPI averages ~9,300 txns/sec (Sept 2026). A small GBDT scores in a few ms per core (to be timed on Render), so the bottleneck is profile I/O, which a managed cache such as Redis handles at this scale (the prototype keeps profiles in memory, backed by Supabase).
 
 ## Privacy by design
-We store derived features only (typing *statistics*, not keystrokes), salted-hash device IDs, a profile retention window, and an audit log of every decision and its reasons (DPDP Act 2023; under the DPDP Rules, notice/consent duties apply from ~14 May 2027 and consent managers from Nov 2026).
+We store derived features only (no keystrokes, audio or call content; "on a call" is a yes/no), salted-hash device IDs, a profile retention window, and an audit log of every decision and its reasons (DPDP Act 2023; under the DPDP Rules, notice/consent duties apply from ~14 May 2027 and consent managers from Nov 2026).

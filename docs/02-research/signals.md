@@ -1,5 +1,7 @@
 # Signal catalogue
 
+> **Update 28 Oct (council review 1):** keystroke timing is dropped for mobile web (Android keyboards report key code 229); new server-side signals (probation payees, 24 h/30 d new-payee outflow, bait-profit, payee fan-in) and real web signals (paste via `inputType`, dwell, app switches) are in `../03-design/risk-engine.md` v2 §1, with a REAL / SIMULATED column. Digital arrests run on WhatsApp/Skype video calls, so a call signal must include VoIP (Android audio mode), not only cellular call state.
+
 > Priority: **P0** = MVP must-have, **P1** = nice to have, **P2** = stretch.
 > **Risk type** says which kind of threat the signal points to. This decides the *kind* of challenge (see `../03-design/risk-engine.md`):
 > **IMP** = impostor (account takeover, stolen credentials, SIM swap) · **SCAM** = genuine user being manipulated (APP fraud) · **BOT** = automation/card-testing · **MULE** = risky receiver.

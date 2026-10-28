@@ -1,5 +1,7 @@
 # Methods research: scoring, explanations, thresholds, latency, privacy
 
+> **Update 28 Oct (council review 1):** the design now uses a risk *rank* + bank-set friction budget (not k / amount thresholds), a multiclass model with LightGBM's built-in `pred_contrib` (not the `shap` library), and only hard rules block. See `../03-design/risk-engine.md` v2 and D-012…D-014. The research below is kept as background.
+
 > Researched 2026-10-15. Answers open questions 2 and 3 in `README.md`.
 
 ## 1. Rules vs ML vs hybrid → **hybrid**

@@ -1,0 +1,24 @@
+# Threat model (v1, 2026-10-28, from council review 1)
+
+> How a scammer or a careless integration could beat Pramaan, and what stops it. "Demo" = what we build in the hack; "Prod" = what a bank deployment adds (talk-only).
+
+| # | Attack | Defence (demo) | Defence (prod) |
+|---|---|---|---|
+| 1 | **Forge client signals** (send `on_call:false`, replay a known device id) | Client signals can only *raise* risk; `false` = unknown; enforced for the model by **risk rank = max(server-only model, full model)** and tested with a spoofed client. Fast-path allow uses server facts only (trusted payee, amount band, passkey-verified device, IP) | SDK payload signed with a per-install key in Android Keystore + Play Integrity attestation |
+| 2 | **Probe the model** until a payment flips to allow (or read our public repo for the rule thresholds) | Customer response = decision + top-3 reasons only; full contributions need an analyst key; rate limit per user/device (built in MUST). Rule thresholds are public in our repo by design; a bank keeps its own values in private config, and the model + budgets + collective signals mean no single threshold is enough to stay under | Same + anomaly alerts on probing patterns |
+| 3 | **Poison the profile** (whitelist a mule via feedback; drip small payments to raise the median; multi-week investment payments) | `/v1/feedback` is analyst-only and can't whitelist payees; payees become trusted only after probation (30 d ∧ ≥ 2 payments ∧ total ≤ usual monthly outflow ∧ no complaint); median uses trusted payments only | Same |
+| 4 | **Coach the victim to wait out the hold, or to "hang up, release, call back"** | No hold releases on a timer. **Every scam hold is released only by the trusted contact or a bank analyst**; the owner can cancel but never release it ("hang up first" defeats any owner-side re-check). Owner cool-off release exists only for non-scam soft holds on a risky payee (passkey on the registered phone ∧ amount ≤ cap) | Bank call-back desk |
+| 5 | **Coach the victim to make the scammer the trusted contact** | Contact verified from their own phone (Telegram `request_contact`, check `contact.user_id == from.id`, + one-time code), active after 72 h, changes frozen 72 h + old contact told, contact can't be a new/probation payee. Hard-flagged payees can't be released by anyone | Contact verified via the bank's KYC; residual risk stated: a multi-day coaching campaign could still succeed, which is why hard flags are unreleasable |
+| 6 | **SIM swap → re-register the passkey via SMS OTP** | For 72 h after a SIM change / new device: new passkey enrolment frozen, a passkey alone can't release a held payment (bank call-back needed), recovery via branch / video-KYC (never SMS) | Same; the Karnataka HC SIM-swap case suggested delays after a SIM change |
+| 7 | **Synced passkey used from the attacker's phone** (after a Google-account takeover; synced passkeys are the norm on Android) | Within 72 h of a SIM change / new device a passkey alone is not enough: the payment is held and needs a bank call-back; BE/BS flags stored | Prefer device-bound keys in the bank's own app |
+| 8 | **Approve something different from what's shown, or replay an old approval** | Passkey challenge = hash(one-time server nonce, txn_id, amount, payee); the approval page shows amount + payee; "Not me" blocks | Secure Payment Confirmation / PSD2-style dynamic linking |
+| 9 | **Split payments under ₹10k** to dodge thresholds (and RBI's proposed lag) | `new_payee_outflow_24h` sums amounts to new/probation payees | Same, across the bank's channels |
+| 10 | **Knock Pramaan offline** so payments fall back to plain 2FA | The timeout lives in the caller's SDK; while we're down, first-time ₹10k+ transfers get the bank's RBI-style hold (degrade to the regulator's rule, not to nothing) | Multi-region; health checks |
+| 11 | **Collective-immunity false flag** on an honest payee | Flag → hold, never block; decays after 24 h without complaints; appeal via the payee's bank | Same |
+| 12 | **Telegram loop down / contact silent** | Hold stays held (never auto-cancel, never auto-allow): reminder at 10 min, bank call-back queue at 30 min | Bank's own app push |
+
+**Privacy (DPDP):** derived features only (no keystrokes, no audio, no call content; "on a call" is a yes/no), salted-hash device ids, retention window, audit log of every decision and release.
+
+**Residual risks we state out loud:**
+- A synced passkey proves the person controls the Google account, not that they hold the registered phone; the server can't tell them apart. So the impostor defence really rests on the SIM-change / new-device signals (bank data, simulated in our demo) plus the 72 h rule.
+- A scammer who coaches a victim for 3+ days could get himself enrolled as the trusted contact. That's why hard-flagged payees are unreleasable, every release is logged with reasons, and the bank can review.

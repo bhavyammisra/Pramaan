@@ -1,5 +1,7 @@
 # Research hub
 
+> **Update 28 Oct:** design v2 (council review 1) replaces TreeSHAP-by-family and cost thresholds with a multiclass model, `pred_contrib` reasons and bank-set friction budgets: see `../03-design/risk-engine.md`.
+
 | File | What's in it | Status |
 |---|---|---|
 | `problem-evidence.md` | Fraud stats (MHA/RBI/NPCI), the APP-scam shift, friction cost, stakeholders, SDGs | Done |

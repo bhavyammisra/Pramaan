@@ -29,15 +29,17 @@
 - **DoT Financial Fraud Risk Indicator (FRI, May 2025):** rates mobile numbers Medium/High/Very-High. PhonePe declines Very-High. PhonePe, Paytm and GPay (> 90% of UPI) are integrating it [13].
 - **RBI MuleHunter.AI:** mule-account detection, live in 26 banks by Mar 2026 [14].
 - **IDPIC / Digital Payment Intelligence Platform:** shared fraud intelligence, piloting in 8 banks as of Sep 2026 [14].
-- **RBI Apr 2026 proposals:** a 1-hour lag on all APP transfers ≥ ₹10k, trusted-person approval for 70+ users above ₹50k, credit caps, and a kill switch [2].
+- **RBI Apr 2026 proposals:** a 1-hour lag on first-time account-to-account transfers above ₹10k (merchant and whitelisted payees exempt), trusted-person approval for 70+ users above ₹50k, a ₹25 lakh annual credit cap on unverified accounts, and a kill switch [2].
+- **Google in-call scam protection (Android 11+, pilots in UK, US, Brazil and India with GPay, Paytm, Navi):** opening a participating financial app while screen-sharing on a call with an unsaved number shows a warning, a one-tap "end call and stop sharing", and a 30-second pause [16]. On-device Gemini Nano call scam detection is Pixel 9+ only in India [4].
 
 **Gap:**
 - These are **reputation lists after the fact**. A number or account has to be reported first, and scam numbers live only a few days [13].
 - They score the **beneficiary**, not *this session's* behaviour.
-- The RBI proposals are **blanket rules** that add friction for every honest user, and the delay is easy to coach around [15].
+- The RBI lag is a **blanket rule for its class**: it delays every honest first-time ₹10k+ transfer, misses splits under ₹10k and repeat payments to a now-whitelisted scam payee, and a 1-hour wait is easy to coach around in a digital arrest that lasts days [15].
+- Google's protection is a **phone-level warning**: it needs screen-sharing + an unsaved caller, doesn't see the amount, payee or the user's history, doesn't hold the money and doesn't involve family.
 
 ## The gap we are addressing
-> **No lightweight, real-time service fuses behaviour + device + transaction context into an explained allow / challenge / block decision, and picks the *right kind* of challenge (biometric step-up for a possible impostor; cooling-off + scam warning for a possibly-coached genuine user). Most honest payments need to flow untouched.**
+> **No lightweight, real-time service fuses behaviour + device + transaction context into an explained allow / challenge / block decision, and picks the *right kind* of challenge (approval on the registered phone for a possible impostor; a hold that only a trusted contact or the bank can release, plus a scam warning, for a possibly-coached genuine user). Most honest payments need to flow untouched.**
 
 ## What we borrow
 | From | We borrow |
@@ -47,6 +49,10 @@
 | BioCatch | Session-behaviour signals: active call, remote access, typing cadence |
 | FRI / MuleHunter | Beneficiary-reputation feature as one input (mocked in prototype) |
 | RBI 2026 paper | Cooling-off delay and trusted-contact challenge, but **risk-targeted, not blanket** |
+| Revolut scam intervention (2024) | ML flags a likely scam → questions + scam stories + specialist chat ("break the spell"); ~30% fewer investment-scam card losses |
+| US FINRA Rules 2165 / 4512 (since 2018) | Firms may temporarily hold a 65+ client's payout on suspected exploitation and notify a pre-named **trusted contact person**: legal precedent for our hold + family loop |
+| Google in-call protection | Call + screen-share state as a signal (proof it's obtainable on Android); we add the payment context, the hold and the family loop |
+| PSD2 dynamic linking / W3C Secure Payment Confirmation | The approval is cryptographically bound to *this* amount and payee (we hash amount + payee + txn id into the passkey challenge) |
 
 ## Sources
 1. RBI Authentication Directions press release: https://www.rbi.org.in/Scripts/BS_PressReleaseDisplay.aspx?prid=61282
@@ -64,3 +70,7 @@
 13. Business Standard, DoT FRI: https://www.business-standard.com/amp/industry/news/dot-launches-financial-fraud-risk-indicator-to-aid-cybercrime-detection-125052101912_1.html
 14. IBTimes, IDPIC pilot / MuleHunter (Sep 2026): https://www.ibtimes.co.in/rbi-speeds-idpic-rollout-combat-digital-payment-frauds-pilot-running-8-banks-906120
 15. Daily Mirror feature on RBI paper: https://www.dailymirror.lk/print/international/Indians-lost-25bn-to-digital-fraud-in-2025-now-its-central-bank-is-fighting-back/107-339105
+16. Google, "Android expands pilot for in-call scam protection for financial apps" (3 Dec 2025): https://blog.google/security/android-expands-pilot-in-call-scam-protection-financial-apps/
+17. FINRA Rule 2165 (Financial Exploitation of Specified Adults): https://www.finra.org/rules-guidance/rulebooks/finra-rules/2165
+18. tech.eu, Revolut AI scam feature (Feb 2024): https://tech.eu/2024/02/15/revolut-launches-ai-scam-features-to-break-scammers-spell/
+19. Chrome, Secure Payment Confirmation: https://developer.chrome.com/blog/spc-on-android

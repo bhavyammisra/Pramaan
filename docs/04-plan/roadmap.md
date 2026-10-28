@@ -1,55 +1,55 @@
 # Roadmap: how we execute, in order
 
-> The *what* and *why* is in `../../PLAN.md`. This file is the *when* and *who*. Owners are suggestions until confirmed in the team chat. Tick boxes as you go and update `STATUS.md`.
+> The *what* and *why* is in `../../PLAN.md`. This file is the *when* and *who*. **Roles are not decided yet**: owner cells say TBD until the team assigns them. Tick boxes as you go and update `STATUS.md`.
 
 ## Phase 0 — 29 Oct (day before): decide, prepare, no project code
 **Morning: decisions (whole team, 1 h)**
-- [ ] Bhavyam: send the organisers 5 questions: what "new statement on-site" means · is pre-written code allowed · judging rubric + demo length · own phones/hotspot OK · AI coding tools allowed.
-- [ ] Team: read `PLAN.md`; accept or change D-012…D-019 (`docs/03-design/decisions.md`); confirm owners below.
+- [ ] Send the organisers 5 questions: what "new statement on-site" means · is pre-written code allowed · judging rubric + demo length · own phones/hotspot OK · AI coding tools allowed.
+- [ ] Team: read `PLAN.md`; accept or change D-012…D-019 (`docs/03-design/decisions.md`); **decide roles** (who builds what, who integrates, who presents).
 
 **Day: checks and prep (in parallel)**
 | Who | Task | Done when |
 |---|---|---|
-| Gunagye | Real-call test: WhatsApp call + `adb shell dumpsys audio` → does the mode change to "in communication"? | Yes/No written in STATUS (decides whether call detection becomes REAL) |
-| Gunagye | Passkey checks: webauthn.io on each phone, and opened from inside Telegram | Notes in STATUS |
-| Shefali | Accounts: Render, Vercel, Supabase, Cloudflare, cron-job.org; Telegram bot via BotFather (token in a password manager) | All logins work |
-| Shefali | Write the **blind attack variants** (she won't build the model) | A list in a private note, not in git until H36 |
-| Abhijay | Generator spec (≈300 users × 60 days, honest look-alikes, 4 attack types) | Doc ready |
-| Abhijay | Deck v7 with corrected claims + the one-page **depth card** + README skeleton (REAL/SIMULATED table) | Files ready |
-| Bhavyam | Rules-scorecard spec on paper (features + points + hard-coded thresholds for the hero flow) | Doc ready |
-| Anyone | Record the warning mp3 (Hindi + English, ~10 s) · download IEEE-CIS · write Q&A flashcards | Files ready |
+| TBD | Real-call test: WhatsApp call + `adb shell dumpsys audio` → does the mode change to "in communication"? | Yes/No written in STATUS (decides whether call detection becomes REAL) |
+| TBD | Passkey checks: webauthn.io on each phone, and opened from inside Telegram | Notes in STATUS |
+| TBD | Accounts: Render, Vercel, Supabase, Cloudflare, cron-job.org; Telegram bot via BotFather (token in a password manager) | All logins work |
+| TBD | Write the **blind attack variants** (someone who won't build the model) | A list in a private note, not in git until H36 |
+| TBD | Generator spec (≈300 users × 60 days, honest look-alikes, 4 attack types) | Doc ready |
+| TBD | Deck v7 with corrected claims + the one-page **depth card** + README skeleton (REAL/SIMULATED table) | Files ready |
+| TBD | Rules-scorecard spec on paper (features + points + hard-coded thresholds for the hero flow) | Doc ready |
+| TBD | Record the warning mp3 (Hindi + English, ~10 s) · download IEEE-CIS · write Q&A flashcards | Files ready |
 
 **Evening (team, 30 min):** paper drill: if the on-site statement were "mule detection" or "KYC fraud", what is our hero flow? (`finals-playbook.md` §1)
 
 ## Phase 1 — H0 to H2 (30 Oct, start): lock the target
 - [ ] **H0 gate (30 min, all):** read the statement → map it to the pattern → commit to one hero flow. If it's PS-04, everything below stands.
-- [ ] Bhavyam: mock `/v1/authenticate` returning canned answers, so everyone can build against it.
-- [ ] Shefali (integrator): repo skeleton, `demo` branch, deploy targets, keep-alive pings on.
+- [ ] Mock `/v1/authenticate` returning canned answers, so everyone can build against it.
+- [ ] Repo skeleton, `demo` branch, deploy targets, keep-alive pings on.
 
 ## Phase 2 — H2 to H8: the skeleton (stubs are fine)
 Goal at **H8**: app → bank route → rules → hold saved in Supabase → Rohan page → PIN unlocked, end to end on Render.
 | Who | Builds |
 |---|---|
-| Bhavyam | API + rules scorecard (hard-coded thresholds) + fraud-list block + time a dummy model on Render |
-| Gunagye | Demo payment app + Reset (seeds Asha) |
-| Shefali | Hold screen + recorded warning + **one Rohan component** (judge QR page / in-app fallback / Telegram link) |
-| Abhijay | Generator v1 producing data |
+| TBD | API + rules scorecard (hard-coded thresholds) + fraud-list block + time a dummy model on Render |
+| TBD | Demo payment app + Reset (seeds Asha) |
+| TBD | Hold screen + recorded warning + **one Rohan component** (judge QR page / in-app fallback / Telegram link) |
+| TBD | Generator v1 producing data |
 
 ## Phase 3 — H8 to H20: the hero flow
 Goal at **H20**: the full 3-minute demo works on the `demo` deployment.
 | Who | Builds |
 |---|---|
-| Bhavyam | Real features (paste, hesitation, app switches, payee history, amount vs usual) into the rules; reasons text |
-| Gunagye | Split screen · device scene (new phone → "Not me") · dashboard with "bank call-back" button |
-| Shefali | Telegram bot (contact Approve/Cancel), holds saved in Supabase, laptop-fallback runbook |
-| Abhijay | Replay harness (OTP-only vs RBI rule vs Pramaan) · demo script v1 |
+| TBD | Real features (paste, hesitation, app switches, payee history, amount vs usual) into the rules; reasons text |
+| TBD | Split screen · device scene (new phone → "Not me") · dashboard with "bank call-back" button |
+| TBD | Telegram bot (contact Approve/Cancel), holds saved in Supabase, laptop-fallback runbook |
+| TBD | Replay harness (OTP-only vs RBI rule vs Pramaan) · demo script v1 |
 **Checkpoint H24:** every MUST item green, or stop and fix.
 
 ## Phase 4 — H20 to H36: the evidence (SHOULD, in this order)
-1. Abhijay: blind-test results + "call signal off" result.
-2. Bhavyam: LightGBM (small) + server-only model; show rules vs model side by side.
-3. Abhijay: probation features + 20-s investment-scam scene.
-4. Gunagye: real passkey approval on the registered phone.
+1. Blind-test results + "call signal off" result.
+2. LightGBM (small) + server-only model; show rules vs model side by side.
+3. Probation features + 20-s investment-scam scene.
+4. Real passkey approval on the registered phone.
 - COULD (only if all green): real call detection app (if the adb test passed) · IEEE-CIS number · hall user test with 10–15 people · cross-victim payee flags.
 **Checkpoint H30:** cut any SHOULD item still red.
 **H36:** measured numbers frozen · **rehearsal 1** · laptop-fallback switch rehearsed.

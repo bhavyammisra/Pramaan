@@ -16,11 +16,11 @@
 - [ ] **Passkey from Telegram:** open a webauthn.io link from inside Telegram on each phone; if Telegram's in-app browser can't do passkeys, the approval flow tells users to open the Pramaan page in Chrome (the registered phone's page polls for pending approvals anyway).
 - [ ] **Record the hold warning** (a teammate's voice, Hindi + English, ~10 s): "CBI, police, ED or judges never arrest anyone on a video call. We've paused this payment and asked Rohan to confirm."
 - [ ] **Deck v7** from deck v6 with the corrected claims (RBI "first-time A2A", passkey not fingerprint, card-testing bot, budgets as policy) + one "what we built" line; README skeleton (what's REAL vs SIMULATED); Q&A flashcards.
-- [ ] **Generator spec** (a doc, Abhijay): ≈300 users × 60 days (30 warm-up + 30 eval), honest look-alikes, the 4 attack types.
-- [ ] **Held-out attack variants written blind** by someone who won't build the model (suggested: Shefali): victim told to hang up first, payee typed not pasted, ₹9,999 splits, repeat investment payments after a bait profit, a spoofed "clean" client. This is our answer to "you graded your own generator".
+- [ ] **Generator spec** (a doc): ≈300 users × 60 days (30 warm-up + 30 eval), honest look-alikes, the 4 attack types.
+- [ ] **Held-out attack variants written blind** by someone who won't build the model : victim told to hang up first, payee typed not pasted, ₹9,999 splits, repeat investment payments after a bait profit, a spoofed "clean" client. This is our answer to "you graded your own generator".
 - [ ] Phone checks: on each Android phone create a passkey on webauthn.io (synced to Google Password Manager or not?); Android version; in Chrome, does `speechSynthesis.getVoices()` list a hi-IN voice?; test the Telegram `request_contact` button in any chat; who has Android Studio working.
 - [ ] Build cards (one per component): libraries, file layout, test command, so typing starts at H0.
-- [ ] Paper re-skin drill (30 min, §1). Q&A owners confirmed (`../05-pitch/README.md`).
+- [ ] Paper re-skin drill (30 min, §1). Q&A owners decided (`../05-pitch/README.md`).
 
 If Q2 = yes: pre-build only the decision kernel and list it in the README as pre-existing work.
 
@@ -36,18 +36,18 @@ Kernel: **events → features vs the user's own baseline → risk rank + type �
 | Insurance / expense claims | Duplicate/inflated claim → document request → investigator approves | synthetic |
 | Non-fintech (health, campus, content) | Score → typed action → a human approves → reasons | — |
 
-## 2. Scope (MoSCoW). Owners are suggestions: confirm in the team chat
-| Tier | What | Suggested owner |
+## 2. Scope (MoSCoW). Roles not decided yet: owners TBD
+| Tier | What | Owner |
 |---|---|---|
 | **MUST (hero flow, by H20)** | **H8 skeleton first** (stubs are fine): app → `/bank/*` → rules → hold saved in Supabase → Rohan page → PIN step unlocked. Then fill in: | |
-| | `/v1/authenticate` + `/bank/*` route on Render, API key, simple per-user/device rate limit · rules scorecard with **hard-coded thresholds** for the hero flow (no dependency on generator data) · **mock-FRI Very-High payee → block** (the demo's block beat) · `ENGINE_DEADLINE_MS` env var (~2 s in the demo) | Bhavyam |
-| | **Mini generator + replay harness**: ≈300 users × **60 days** (30 warm-up for baselines/probation + 30 eval), 4 attack types + honest look-alikes; card testing lives here | Abhijay |
-| | Demo UPI app + **Reset demo** (seeds Asha) · split screen (same ₹85k, OTP-only vs Pramaan) · "kill API" switch | Gunagye |
-| | Hold + spell-breaker screen with the recorded warning · **one "Rohan" component** used three ways (judge QR web page with a one-time token per hold, in-app fallback panel, link inside the Telegram message) · Telegram bot (long polling) | Shefali (also **integrator**) |
-| | Reasons panel + "bank call-back (simulated)" button on the dashboard · keep-alive + laptop fallback runbook | Gunagye (dashboard) · Shefali (runbook) |
-| | **Device scene (15 s, SIMULATED):** new phone + SIM changed yesterday → "Approve on your registered phone" page (same component as Rohan's) with Approve / **Not me** → Not me blocks. Real WebAuthn stays SHOULD (4) | Gunagye |
-| | Demo script + presenting (the presenter is not the integrator and doesn't deploy in the last hour) | Abhijay (suggested presenter) |
-| **SHOULD (H20–H36), in this order** | (1) recall-vs-budget curve + `on_call` ablation on held-out variants → (2) multiclass LightGBM + server-only model (risk = max) → (3) probation features + a 20-s investment-scam scene (a "profit" credit from a stranger, then a bigger payment → held) → (4) impostor path: transaction-bound passkey on the registered phone + "Not me" | (1) Abhijay · (2) Bhavyam · (3) Abhijay · (4) Gunagye |
+| | `/v1/authenticate` + `/bank/*` route on Render, API key, simple per-user/device rate limit · rules scorecard with **hard-coded thresholds** for the hero flow (no dependency on generator data) · **mock-FRI Very-High payee → block** (the demo's block beat) · `ENGINE_DEADLINE_MS` env var (~2 s in the demo) | TBD |
+| | **Mini generator + replay harness**: ≈300 users × **60 days** (30 warm-up for baselines/probation + 30 eval), 4 attack types + honest look-alikes; card testing lives here | TBD |
+| | Demo UPI app + **Reset demo** (seeds Asha) · split screen (same ₹85k, OTP-only vs Pramaan) · "kill API" switch | TBD |
+| | Hold + spell-breaker screen with the recorded warning · **one "Rohan" component** used three ways (judge QR web page with a one-time token per hold, in-app fallback panel, link inside the Telegram message) · Telegram bot (long polling) | TBD |
+| | Reasons panel + "bank call-back (simulated)" button on the dashboard · keep-alive + laptop fallback runbook | TBD |
+| | **Device scene (15 s, SIMULATED):** new phone + SIM changed yesterday → "Approve on your registered phone" page (same component as Rohan's) with Approve / **Not me** → Not me blocks. Real WebAuthn stays SHOULD (4) | TBD |
+| | Demo script + presenting (the presenter is not the integrator and doesn't deploy in the last hour) | TBD |
+| **SHOULD (H20–H36), in this order** | (1) recall-vs-budget curve + `on_call` ablation on held-out variants → (2) multiclass LightGBM + server-only model (risk = max) → (3) probation features + a 20-s investment-scam scene (a "profit" credit from a stranger, then a bigger payment → held) → (4) impostor path: transaction-bound passkey on the registered phone + "Not me" | TBD |
 | **COULD (only when MUST + SHOULD are green)** | Hall user test: 10–15 people play "Asha" while a teammate coaches them on a call; count cancels at the warning screen · One non-synthetic check: transaction + device sub-model AUC on IEEE-CIS (real data; download it on 29 Oct; 1-hour box) · live spoken warning via Chrome speech · bait-profit · collective-immunity counter · Android micro-app (native, no WebView) posting only the call audio mode — **only if the 29 Oct `adb shell dumpsys audio` test showed the mode change** | whoever is free |
 | **TALK-ONLY** | SDK signing + Play Integrity · bank call-back desk · second independent generator · DPIP/FRI feeds · appeals workflow | — |
 

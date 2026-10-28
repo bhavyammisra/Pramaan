@@ -5,15 +5,15 @@
 ## Todo (29 Oct, before the hack: no project code until organisers allow it)
 | Task | Owner | Notes |
 |---|---|---|
-| Ask organisers the 5 questions (statement, pre-written code, rubric/demo length, phones/hotspot, AI coding tools) | Bhavyam | `finals-playbook.md` §0 |
+| Ask organisers the 5 questions (statement, pre-written code, rubric/demo length, phones/hotspot, AI coding tools) |  | `finals-playbook.md` §0 |
 | Confirm the D-012…D-019 proposals (accept / change) | Team | `../03-design/decisions.md` |
-| Confirm track owners + Q&A owners | Team | suggestions in `finals-playbook.md` §2 and `../05-pitch/README.md` |
+| Decide roles (tracks, integrator, presenter, Q&A owners) | Team | not decided yet |
 | Accounts: Render, Vercel, Supabase, Cloudflare, cron-job.org; Telegram bot via BotFather | | token in a password manager, never in git |
 | Phone checks: passkey on webauthn.io (synced?), Android version, Chrome hi-IN voice, `request_contact` button; `adb shell dumpsys audio` during a WhatsApp call (does the mode change?) | | decides whether the Android micro-app is worth its 4-hour box |
 | Record the Hindi + English hold warning as audio (a teammate's voice) | | plays on the hold screen; no TTS dependency |
-| Generator spec (≈300 users × 60 days) | Abhijay | `finals-playbook.md` §0 |
-| Held-out attack variants, written blind | Shefali | `finals-playbook.md` §0 |
-| Deck v7 with corrected claims + README skeleton + Q&A flashcards | Abhijay + all | `05-pitch/README.md` |
+| Generator spec (≈300 users × 60 days) |  | `finals-playbook.md` §0 |
+| Held-out attack variants, written blind |  | `finals-playbook.md` §0 |
+| Deck v7 with corrected claims + README skeleton + Q&A flashcards |  | `05-pitch/README.md` |
 | Download IEEE-CIS (for the optional real-data check) | | Kaggle account needed |
 | Paper re-skin drill (30 min) | Team | `finals-playbook.md` §1 |
 | Abhijay's GitHub handle in `team.md` | Abhijay | |

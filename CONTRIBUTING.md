@@ -8,8 +8,8 @@
    - Not comfortable with the CLI? **GitHub Desktop** works just as well.
 3. Clone with HTTPS into your hackathon folder:
    ```bash
-   git clone https://github.com/bhavyammisra/BIOS-Transaction-Authentication.git
-   cd BIOS-Transaction-Authentication
+   git clone https://github.com/bhavyammisra/Pramaan.git
+   cd Pramaan
    git config user.name  "Your Name"
    git config user.email "you@example.com"
    ```

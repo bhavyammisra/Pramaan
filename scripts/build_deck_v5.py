@@ -78,7 +78,7 @@ def slide1(s):
         add_par(tf, [(head, 10, True, WHITE)], first=True, align=L)
         add_par(tf, [(body, 10, False, WHITE)], align=L)
     sources(s, "Sources: MHA/NCRP via ThePrint (2025 losses by scam type); RBI Discussion Paper “Exploring safeguards in digital payments to curb frauds”, 9 Apr 2026. "
-               "Links: github.com/bhavyammisra/BIOS-Transaction-Authentication")
+               "Links: github.com/bhavyammisra/Pramaan")
     notes(s, "We're team Caffeinated Nerds, on Frontier problem PS-04: Fast and Secure Online Transaction Authentication. "
              "Meet Asha. She's 72. A fake CBI officer calls her. On her own phone, at home, she types her own UPI PIN, and the bank approves 85,000 rupees to a scammer. "
              "Every check passed: right person, right phone, right PIN. A PIN checks who you are. Nobody checks what's happening. "

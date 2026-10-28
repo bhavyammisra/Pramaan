@@ -18,6 +18,7 @@ setup → research → design → plan → pitch (screening, done) → **`BUILD 
 - **v5 deck** (`Pramaan_BIOS_Screening_v5.pptx`, `scripts/build_deck_v5.py`): review fixes to v4. Screening submissions close **19 Oct 2026**; resubmit v5 if the dashboard allows. Results 22 Oct; hack 30 Oct to 1 Nov (48 h) with **new** statements picked on-site.
 - **Screening round** deck + promo video submitted (15 Oct).
 - **v6 deck** (`Pramaan_BIOS_Screening_v6.pptx` + `.pdf`, `scripts/build_deck_v6.py`): review fixes to v5, D-011 (passkey on registered phone, family-approval wording, bot row, dates). Docs brought in line: DPDP dates, Render sleep risk, threshold-vs-target risk, stale Cloud Run/Redis and 24 h plan removed.
+- **Repo renamed** to `github.com/bhavyammisra/Pramaan` (28 Oct). Old URL redirects; run `git remote set-url origin https://github.com/bhavyammisra/Pramaan.git` once.
 
 ## In progress
 | Who | What |

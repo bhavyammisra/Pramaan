@@ -2,7 +2,7 @@
 
 > **Claude:** a teammate on **Caffeinated Nerds** asked you to set them up on this repo. Follow these steps in order. Run the commands yourself wherever you can. Only stop to ask the user for things you can't know or do (their name, email, a browser sign-in). Keep your messages short and friendly.
 >
-> Repo: `https://github.com/bhavyammisra/BIOS-Transaction-Authentication` (HTTPS only, no SSH).
+> Repo: `https://github.com/bhavyammisra/Pramaan` (HTTPS only, no SSH).
 
 ---
 
@@ -10,7 +10,7 @@
 1. Their **name** and **GitHub username**
 2. The **email** they use on GitHub (for commits)
 3. **Where to put the project.** Default: the folder Claude is currently open in.
-4. Have they **accepted the collaborator invite**? If not, they should check their email or go to https://github.com/bhavyammisra/BIOS-Transaction-Authentication/invitations. If no invite has arrived, they should ask Bhavyam to add their GitHub username under Settings → Collaborators. Reading and cloning work without it; only pushing needs it.
+4. Have they **accepted the collaborator invite**? If not, they should check their email or go to https://github.com/bhavyammisra/Pramaan/invitations. If no invite has arrived, they should ask Bhavyam to add their GitHub username under Settings → Collaborators. Reading and cloning work without it; only pushing needs it.
 
 ## Step 1 · Check git
 ```bash
@@ -22,12 +22,12 @@ git --version
 ## Step 2 · Clone (HTTPS)
 - If the chosen folder is **empty**, clone into it:
   ```bash
-  git clone https://github.com/bhavyammisra/BIOS-Transaction-Authentication.git .
+  git clone https://github.com/bhavyammisra/Pramaan.git .
   ```
 - Otherwise, clone into a subfolder:
   ```bash
-  git clone https://github.com/bhavyammisra/BIOS-Transaction-Authentication.git
-  cd BIOS-Transaction-Authentication
+  git clone https://github.com/bhavyammisra/Pramaan.git
+  cd Pramaan
   ```
 - If you're **already inside a clone** of this repo (`git remote -v` shows it), skip the clone and run `git pull --rebase --autostash`.
 
